@@ -1,3 +1,4 @@
+#IMPORTS
 import requests
 from bs4 import BeautifulSoup as bs
 import yaml
@@ -48,11 +49,13 @@ def Check_Login():
                     s.post("https://mymustangs.milton.edu/Student/index.cfm",login_data)
                     home_page = s.get("https://mymustangs.milton.edu/Student/index.cfm?")
                     html_file = bs(home_page.text, "html.parser")
-                    print(html_file)
+                    #print(html_file)
         except:
             print("Location not Milton")
     else:
         print("dont check location")
+
+
 
 
 
@@ -75,9 +78,7 @@ def getSchedule():
         s.post("https://mymustangs.milton.edu/Student/index.cfm",login_data)
         home_page = s.get("https://mymustangs.milton.edu/Student/index.cfm?")
         myStuff = s.get("https://mymustangs.milton.edu/student/myschedule/fetch.cfm")
-        print(bs(myStuff.text, "html.parser"))
+        #print(bs(myStuff.text, "html.parser"))
         html_file = bs(home_page.text, "html.parser")
-        with open('./google.html', 'w', encoding='utf8') as fp:
+        with open('./currentSchedule.html', 'w', encoding='utf8') as fp:
             fp.write(myStuff.text)
-
-getSchedule()

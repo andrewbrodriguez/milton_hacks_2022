@@ -1,3 +1,4 @@
+#IMPORTS
 from datetime import time
 from PIL.Image import new
 from bs4 import BeautifulSoup
@@ -8,16 +9,20 @@ from datetime import datetime
 import yaml
 
 import finalTwillio
-import autoLogin
+import myMilton
 
 
 
-def mainFunction(user,passwrd,phone,week,file):
+def mainFunction(user,passwrd,phone,week):
+
+	myMilton.getSchedule()
 
 
-
-	path = file
+	path = "./currentSchedule.html"
 	schedule = BeautifulSoup(open(path), "html.parser")
+
+	milton_username = user
+	milton_pass = passwrd
 
 		
 	trs = []
@@ -64,23 +69,6 @@ def mainFunction(user,passwrd,phone,week,file):
 
 
 
-	stream = open("info.yml", 'r')
-	data = yaml.safe_load(stream)
-
-	milton_username = user
-	milton_pass = passwrd
-
-	# print(user, passwrd)
-# 
-	data["fb_user"]["UserLogin"] = milton_username
-	data["fb_user"]["UserPassword"] = milton_pass
-
-	# print(data)
-
-	with open("info.yml", 'w') as yaml_file:
-		yaml_file.write( yaml.dump(data, default_flow_style=False))
-
-
 
 
 
@@ -93,7 +81,7 @@ def mainFunction(user,passwrd,phone,week,file):
 
 	index = 0 #dummy variable
 
-	if temp.dayofweek < 5: #only work on weekdays
+	if index_of_week < 5: #only work on weekdays
 		if orange_week: #shift depending on orange week or not
 			# index = temp.dayofweek + 5
 			index = index_of_week + 5
@@ -151,7 +139,7 @@ def mainFunction(user,passwrd,phone,week,file):
 
 	finalTwillio.send_message(msg,phone)
 
-	autoLogin.Check_Login()
+
 
 
 
@@ -159,7 +147,6 @@ def mainFunction(user,passwrd,phone,week,file):
 
 
 	
-
 
 
 
